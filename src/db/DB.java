@@ -11,26 +11,25 @@ import java.util.Properties;
 
 public class DB {
 
-	private static Connection conn = null;
-	
-	public static Connection getConnection() {
-		if (conn == null) {
+	private static Connection connection = null;
+
+	public static Connection getConnection(){
+		System.out.println("Connecting...");
+		if (connection == null){
 			try {
-				Properties props = loadProperties();
-				String url = props.getProperty("dburl");
-				conn = DriverManager.getConnection(url, props);
-			}
-			catch (SQLException e) {
+				connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/coursejdbc", "dev","euflauzino");
+				System.out.println("Conected!");
+			} catch (SQLException e) {
 				throw new DbException(e.getMessage());
 			}
 		}
-		return conn;
+		return connection;
 	}
 	
 	public static void closeConnection() {
-		if (conn != null) {
+		if (connection != null) {
 			try {
-				conn.close();
+				connection.close();
 			} catch (SQLException e) {
 				throw new DbException(e.getMessage());
 			}
